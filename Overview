@@ -1,0 +1,77 @@
+Welcome to our developer community!
+Buckzy platform has been designed with a rich set of APIs that enables our partners and customers to develop cross-border payment solutions. Whether you’re developing a custom solution or building a mobile App for the App Marketplace, our developer platform has the tools and capabilities to support you.
+Begin the integration process with Buckzy by reviewing this document to understand the API structures and capabilities available.
+Once you’ve familiarized yourself with the details, gain access to our SANDBOX environment. With SANDBOX access, you’re ready to start the development process and integrate with Buckzy.
+How to use this Guide?
+This guide is designed to help you navigate and effectively use our API collection for your application. It walks you through the core concepts and the structure of the Buckzy APIs, enabling you to build seamless integrations with our platform.
+1. Exploring Endpoints
+The endpoints are listed in the left sidebar. Each folder is clearly labeled, and contains all the endpoints required for that particular functionality. To find the ones related to a specific feature, simply navigate into each folder.
+
+
+2. Viewing Use Cases - Request and Response Payloads
+Each endpoint, has multiple use case examples added to help you understand the different scenarios in which the endpoint can be used. To view the use case examples:
+Click on the dropdown next to the Example Request label.
+This will reveal the different use case examples, along with the associated request and response payloads.
+
+Each use case includes:
+Request Payload: The data that should be sent to the API for that specific use case.
+Response Payload: The expected response from the API, which includes status codes, data structure, and other relevant details.
+
+Click on the desired use case to see the request and response data, then you can modify or test the payload as needed.
+Refer to the ADDITIONAL INFORMATION section for different reference codes used in the paylods.
+
+
+3. Accessing the API Collection
+Click on "Run in Postman" button at the top right corner to add the collection to your workspace.
+4. Testing the Endpoints
+Once you have selected a use case and reviewed the payloads, you can send the request directly from Postman to test the endpoint. The response will be shown within the Postman interface, allowing you to verify the behavior of the API.
+Feel free to experiment with different use cases, and don’t hesitate to reach out if you need further assistance!
+Use Cases
+Here are the key use cases we offer, covering a range of payment types and transaction methods:
+Single Payment (Payout)
+B2B (Business to Business): Both the sender and receiver are businesses.
+B2C (Business to Consumer): The sender is a business, and the receiver is an individual.
+C2C (Consumer to Consumer): Both the sender and receiver are individuals.
+C2B (Consumer to Business): The sender is an individual, and the receiver is a business.
+
+Payout with Different Payment Methods
+Supports various payment methods such as Wire, ACH, Fedwire, SEPA, FPS, IMPS, and UPI.
+
+Account to Account Transfer (A2A)
+Facilitates direct transfers between accounts.
+
+Mass Payment
+Enables processing of bulk payments.
+
+Payin (Inbound Transaction)
+Payin with PIX (BR) - Supports transactions using PIX, a real-time payment system in Brazil.
+
+
+Webhook
+You can receive notifications (callbacks) whenever the status of a transaction changes during processing. To enable this feature, simply provide Buckzy with the callback URL you’d like to use. This URL is usually provided during the onboarding process.
+Each time a transaction’s status changes, Buckzy will send a POST JSON request to the specified URL. The request body will include the same fields as those returned when initiating or retrieving a transaction.
+Callback Payload:
+
+
+Plain Text
+
+
+
+
+
+
+
+
+{
+  "transactionId": "23b81729-b703-497a-a1bc-a25a5495f0dc",
+  "status": {
+    "status": "AcceptedSettlementInProcess",//status of the transaction
+    "reasonCode": null,
+    "reasonDescription": null
+  }
+  direction: "Outbound"//Inbound or Outbound
+}
+
+
+
+
