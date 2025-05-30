@@ -52,7 +52,7 @@ pip install requests python-dotenv
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/haritha110/Buckzy_API.git](https://github.com/haritha110/Buckzy_API.)
+    git clone [https://github.com/haritha110/Buckzy_API.git](https://github.com/haritha110/Buckzy_API.git)
     cd Buckzy_API
     ```
 
