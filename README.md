@@ -28,11 +28,11 @@ This project serves as a foundational Python client for interacting with the Buc
 
 The current implementation of the Buckzy API Python Client includes support for the following core functionalities as specified:
 
-* **1. Entity Documents Management**: Provides methods to upload, retrieve, and list documents associated with various entities (e.g., KYC documents for customers).
-* **2. Customer Management (Individual, Corporate)**: Enables the creation, retrieval, and updating of both individual and corporate customer profiles within the Buckzy system.
-* **3. SPOT Rates**: Offers functionality to fetch real-time foreign exchange spot rates for specified currency pairs.
-* **4. Buckzy Account Management**: Supports the creation of new Buckzy internal accounts, retrieval of their detailed information, and querying of their current balances.
-* **5. Payout Transaction Endpoint**: Facilitates the initiation of new money payout transactions and allows for checking the real-time status of these transactions.
+  1. **Entity Documents Management**: Provides methods to upload, retrieve, and list documents associated with various entities (e.g., KYC documents for customers).
+  2. **Customer Management (Individual, Corporate)**: Enables the creation, retrieval, and updating of both individual and corporate customer profiles within the Buckzy system.
+  3. **SPOT Rates**: Offers functionality to fetch real-time foreign exchange spot rates for specified currency pairs.
+  4. **Buckzy Account Management**: Supports the creation of new Buckzy internal accounts, retrieval of their detailed information, and querying of their current balances.
+  5. **Payout Transaction Endpoint**: Facilitates the initiation of new money payout transactions and allows for checking the real-time status of these transactions.
 
 ## Prerequisites
 
@@ -86,7 +86,7 @@ You will need to acquire your unique API key from the Buckzy developer portal or
 Create a file named `.env` in the root directory of your project (the same directory as `buckzy_client.py`). Add your credentials to this file:
 
   ```bash
-    # .env file
+# .env file
 BUCKZY_BASE_URL=[https://api.buckzy.net/v1](https://api.buckzy.net/v1)
 BUCKZY_API_KEY=your_actual_buckzy_api_key_here
   ```
