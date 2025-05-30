@@ -130,21 +130,23 @@ Below is a representation of the key methods you would find in the `BuckzyAPICli
 * `get_payout_status(self, payout_id)`: Retrieves the status of a specific payout transaction.
 
 ## API Endpoints Implementation
+
 The following sections detail the specific methods implemented within the `BuckzyAPIClient` for each of the required API endpoints.
-  1. Entity Documents Management
-    Methods for uploading, retrieving, and listing documents associated with entities.
-    - `upload_entity_document(self, entity_id, document_data_base64, document_type, filename)`:
-       - Endpoint Placeholder: `documents/entity/{entity_id}`
-       - Payload: Assumes `document_data_base64` is the Base64 encoded content of the file. `document_type` and `filename `are also part of the JSON payload.
-       - Note: If Buckzy's API expects `multipart/form-data` for file uploads, this method and the `_make_request` helper would require significant modification (e.g., using files parameter in `requests.post`).
-     - `get_entity_document(self, entity_id, document_id)`:
+  1. Entity Documents Management:
+     
+     Methods for uploading, retrieving, and listing documents associated with entities.
+       - `upload_entity_document(self, entity_id, document_data_base64, document_type, filename)`:
+         - Endpoint Placeholder: `documents/entity/{entity_id}`
+         - Payload: Assumes `document_data_base64` is the Base64 encoded content of the file. `document_type` and `filename `are also part of the JSON payload.
+         - Note: If Buckzy's API expects `multipart/form-data` for file uploads, this method and the `_make_request` helper would require significant modification (e.g., using files parameter in `requests.post`).
+      - `get_entity_document(self, entity_id, document_id)`:
          - Endpoint Placeholder: `documents/entity/{entity_id}/{document_id}`
      - `list_entity_documents(self, entity_id`):
          - Endpoint Placeholder: `documents/entity/{entity_id}/{document_id}`
 
   **Example Usage**
 
-   ```bash
+  ```bash
 import base64
 
 # Assuming 'customer_id' is obtained from a successful customer creation
@@ -180,21 +182,21 @@ else:
     print("Skipping further document operations due to upload failure.")
 ```
 
-  2. Customer Management (Individual, Corporate)
+  2. Customer Management (Individual, Corporate):
+     
      Methods for creating, retrieving, and updating customer profiles.
-
-    - `create_individual_customer(self, customer_data)`:
+     - `create_individual_customer(self, customer_data)`:
         - Endpoint Placeholder: `customers/individual`
-    - `create_corporate_customer(self, customer_data)`:
-      - Endpoint Placeholder: `customers/corporate`
-    - `get_customer(self, customer_id)`:
-      - Endpoint Placeholder:` customers/{customer_id}`
+     - `create_corporate_customer(self, customer_data)`:
+       - Endpoint Placeholder: `customers/corporate`
+     - `get_customer(self, customer_id)`:
+         - Endpoint Placeholder:` customers/{customer_id}`
     - `update_customer(self, customer_id, update_data)`:
       - Endpoint Placeholder: `customers/{customer_id}`
 
   **Example Usage**
 
-   ```bash
+  ```bash
 print("\n--- Testing Customer Management ---")
 # Create an individual customer
 customer_data = {
@@ -245,32 +247,35 @@ else:
 
 ```
 
-  3. SPOT Rates
+  3. SPOT Rates:
+     
      Method to fetch real-time foreign exchange spot rates.
-    - `get_spot_rates(self, from_currency, to_currency):`
-      - Endpoint Placeholder: `rates/spot`
+     - `get_spot_rates(self, from_currency, to_currency):`
+         - Endpoint Placeholder: `rates/spot`
       - Parameters: `fromCurrency, toCurrency`
-   **Example Usage**
+        
+  **Example Usage**
 
-   ```bash
+  ```bash
 print("\n--- Testing SPOT Rates ---")
 # Get SPOT rates for USD to JPY
 spot_rates_resp = client.get_spot_rates("USD", "JPY")
 print(f"Get SPOT Rates (USD/JPY): {json.dumps(spot_rates_resp, indent=2)}")
 ```
 
-  4. Buckzy Account Management
+  4. Buckzy Account Management:
+     
      Methods for creating, retrieving details, and querying balances of Buckzy internal accounts.
-
-    - `create_buckzy_account(self, account_data`):
+     - `create_buckzy_account(self, account_data`):
         - Endpoint Placeholder:` accounts`
-    - `get_buckzy_account_details(self, account_id)`:
-      - Endpoint Placeholder: `accounts/{account_id}`
-    - `get_buckzy_account_balance(self, account_id):`
-      - Endpoint Placeholder:` accounts/{account_id}/balance`
-   **Example Usage**
+      - `get_buckzy_account_details(self, account_id)`:
+          - Endpoint Placeholder: `accounts/{account_id}`
+      - `get_buckzy_account_balance(self, account_id):`
+        - Endpoint Placeholder:` accounts/{account_id}/balance`
+          
+  **Example Usage**
 
-   ```bash
+  ```bash
 print("\n--- Testing Buckzy Account Management ---")
 buckzy_account_id = None # Initialize account_id for chaining
 if customer_id: # Requires a customer to be created first
@@ -305,16 +310,17 @@ else:
 ```
 
 
-  5. Payout Transaction Endpoint
+  5. Payout Transaction Endpoint:
+     
      Methods for initiating new money payout transactions and checking their status.
-    -` initiate_payout_transaction(self, transaction_data`):
-       - Endpoint Placeholder: `payouts`
-    -` get_payout_transaction_status(self, transaction_id):`
-      - Endpoint Placeholder: `payouts/{transaction_id}/status`
+     - ` initiate_payout_transaction(self, transaction_data`):
+         - Endpoint Placeholder: `payouts`
+      - ` get_payout_transaction_status(self, transaction_id):`
+         - Endpoint Placeholder: `payouts/{transaction_id}/status`
     
   **Example Usage**
 
-   ```bash
+  ```bash
 print("\n--- Testing Payout Transaction Endpoint ---")
 payout_transaction_id = None # Initialize transaction_id for chaining
 if customer_id and buckzy_account_id: # Requires customer and account
