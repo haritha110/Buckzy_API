@@ -18,7 +18,7 @@ This repository hosts a Python client designed to facilitate interaction with th
   - [5. Payout Transaction Endpoint](#5-payout-transaction-endpoint)
 - [Error Handling](#error-handling)
 - [Assumptions](#assumptions)
-- [License](#license)
+- [Running the Example](running-the-example)
 
 ## Overview
 
@@ -184,32 +184,178 @@ else:
      Methods for creating, retrieving, and updating customer profiles.
 
     - `create_individual_customer(self, customer_data)`:
-        - Endpoint Placeholder: customers/individual
-    - create_corporate_customer(self, customer_data):
-      - Endpoint Placeholder: customers/corporate
-    - get_customer(self, customer_id):
-      - Endpoint Placeholder: customers/{customer_id}
-    - update_customer(self, customer_id, update_data):
-      - Endpoint Placeholder: customers/{customer_id}
+        - Endpoint Placeholder: `customers/individual`
+    - `create_corporate_customer(self, customer_data)`:
+      - Endpoint Placeholder: `customers/corporate`
+    - `get_customer(self, customer_id)`:
+      - Endpoint Placeholder:` customers/{customer_id}`
+    - `update_customer(self, customer_id, update_data)`:
+      - Endpoint Placeholder: `customers/{customer_id}`
 
+  **Example Usage**
+
+   ```bash
+print("\n--- Testing Customer Management ---")
+# Create an individual customer
+customer_data = {
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "email": "jane.doe.test@example.com",
+    "phone": "+15551234567",
+    "address": {
+        "street": "789 Elm St", "city": "Springfield", "state": "IL",
+        "zipCode": "62701", "country": "USA"
+    },
+    "dateOfBirth": "1990-05-15",
+    "nationality": "US"
+    # *** IMPORTANT: Add all other required fields as per Buckzy API docs ***
+    # e.g., "uniqueId": "some_unique_identifier_for_jane"
+}
+create_customer_resp = client.create_individual_customer(customer_data)
+print(f"Create Individual Customer: {json.dumps(create_customer_resp, indent=2)}")
+
+customer_id = None # Initialize customer_id for chaining
+if not create_customer_resp.get("error"):
+    # Assuming 'id' or 'customerId' is the key for the customer ID in the response
+    customer_id = create_customer_resp.get("id") or create_customer_resp.get("customerId")
+    if customer_id:
+        print(f"Obtained Customer ID: {customer_id}")
+
+        # Get customer details
+        get_customer_resp = client.get_customer(customer_id)
+        print(f"Get Customer ({customer_id}): {json.dumps(get_customer_resp, indent=2)}")
+
+        # Update customer details
+        update_data = {"phone": "+15559876543", "address": {"street": "101 Maple Ave"}}
+        update_customer_resp = client.update_customer(customer_id, update_data)
+        print(f"Update Customer ({customer_id}): {json.dumps(update_customer_resp, indent=2)}")
+    else:
+        print("Customer ID not found in creation response. Skipping get/update operations.")
+else:
+    print("Failed to create individual customer. Skipping related operations.")
+
+# Example for corporate customer (data structure would differ significantly)
+# corporate_customer_data = {
+#     "companyName": "Acme Corp",
+#     "registrationNumber": "REG12345",
+#     # ... other corporate specific fields
+# }
+# create_corporate_resp = client.create_corporate_customer(corporate_customer_data)
+# print(f"Create Corporate Customer: {json.dumps(create_corporate_resp, indent=2)}")
+
+```
 
   3. SPOT Rates
+     Method to fetch real-time foreign exchange spot rates.
+    - `get_spot_rates(self, from_currency, to_currency):`
+      - Endpoint Placeholder: `rates/spot`
+      - Parameters: `fromCurrency, toCurrency`
+   **Example Usage**
+
+   ```bash
+print("\n--- Testing SPOT Rates ---")
+# Get SPOT rates for USD to JPY
+spot_rates_resp = client.get_spot_rates("USD", "JPY")
+print(f"Get SPOT Rates (USD/JPY): {json.dumps(spot_rates_resp, indent=2)}")
+```
+
   4. Buckzy Account Management
+     Methods for creating, retrieving details, and querying balances of Buckzy internal accounts.
+
+    - `create_buckzy_account(self, account_data`):
+        - Endpoint Placeholder:` accounts`
+    - `get_buckzy_account_details(self, account_id)`:
+      - Endpoint Placeholder: `accounts/{account_id}`
+    - `get_buckzy_account_balance(self, account_id):`
+      - Endpoint Placeholder:` accounts/{account_id}/balance`
+   **Example Usage**
+
+   ```bash
+print("\n--- Testing Buckzy Account Management ---")
+buckzy_account_id = None # Initialize account_id for chaining
+if customer_id: # Requires a customer to be created first
+    account_data = {
+        "customerId": customer_id, # Link to the customer created above
+        "currency": "USD",
+        "accountType": "PRIMARY_WALLET" # Verify valid account types with Buckzy docs
+        # *** IMPORTANT: Add all other required fields as per Buckzy API docs ***
+    }
+    create_acc_resp = client.create_buckzy_account(account_data)
+    print(f"Create Account: {json.dumps(create_acc_resp, indent=2)}")
+
+    if not create_acc_resp.get("error"):
+        # Assuming 'id' or 'accountId' is the key for the account ID in the response
+        buckzy_account_id = create_acc_resp.get("id") or create_acc_resp.get("accountId")
+        if buckzy_account_id:
+            print(f"Obtained Buckzy Account ID: {buckzy_account_id}")
+
+            # Get account details
+            get_acc_details_resp = client.get_buckzy_account_details(buckzy_account_id)
+            print(f"Get Account Details ({buckzy_account_id}): {json.dumps(get_acc_details_resp, indent=2)}")
+
+            # Get account balance
+            get_acc_balance_resp = client.get_buckzy_account_balance(buckzy_account_id)
+            print(f"Get Account Balance ({buckzy_account_id}): {json.dumps(get_acc_balance_resp, indent=2)}")
+        else:
+            print("Buckzy Account ID not found in creation response. Skipping get details/balance.")
+    else:
+        print("Failed to create Buckzy account. Skipping related operations.")
+else:
+    print("Skipping Buckzy Account Management: No customer ID available from previous step.")
+```
+
+
   5. Payout Transaction Endpoint
+     Methods for initiating new money payout transactions and checking their status.
+    -` initiate_payout_transaction(self, transaction_data`):
+       - Endpoint Placeholder: `payouts`
+    -` get_payout_transaction_status(self, transaction_id):`
+      - Endpoint Placeholder: `payouts/{transaction_id}/status`
+    
+  **Example Usage**
 
+   ```bash
+print("\n--- Testing Payout Transaction Endpoint ---")
+payout_transaction_id = None # Initialize transaction_id for chaining
+if customer_id and buckzy_account_id: # Requires customer and account
+    payout_data = {
+        "sourceAccountId": buckzy_account_id,
+        "sourceCurrency": "USD",
+        "sourceAmount": 50.00,
+        "destinationCurrency": "EUR",
+        "transactionType": "CROSS_BORDER_PAYOUT", # Verify valid transaction types
+        "purposeOfTransaction": "Family Support",
+        "receiverDetails": {
+            "receiverName": "Recipient Name",
+            "receiverEmail": "recipient@example.com",
+            "bankDetails": {
+                "bankName": "Deutsche Bank", "iban": "DE12345678901234567890", "bicSwift": "DEUTDEFF"
+            },
+            "address": {
+                "street": "1 Bahnhofstr", "city": "Berlin", "zipCode": "10115", "country": "DEU"
+            }
+        }
+        # *** IMPORTANT: Add all other required fields like idempotency key as per Buckzy API docs ***
+    }
+    initiate_payout_resp = client.initiate_payout_transaction(payout_data)
+    print(f"Initiate Payout: {json.dumps(initiate_payout_resp, indent=2)}")
 
+    if not initiate_payout_resp.get("error"):
+        # Assuming 'id' or 'transactionId' is the key for the transaction ID in the response
+        payout_transaction_id = initiate_payout_resp.get("id") or initiate_payout_resp.get("transactionId")
+        if payout_transaction_id:
+            print(f"Obtained Payout Transaction ID: {payout_transaction_id}")
 
-  
-  
-
-
-
-
-
-
-
-
-
+            # Get payout transaction status
+            get_payout_status_resp = client.get_payout_transaction_status(payout_transaction_id)
+            print(f"Get Payout Status ({payout_transaction_id}): {json.dumps(get_payout_status_resp, indent=2)}")
+        else:
+            print("Transaction ID not found in payout initiation response. Skipping status check.")
+    else:
+        print("Failed to initiate payout transaction. Skipping status check.")
+else:
+    print("Skipping Payout Transaction: Missing customer ID or Buckzy account ID from previous steps.")
+```
 
 ## Error Handling
 
